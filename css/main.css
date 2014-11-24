@@ -5,3 +5,11 @@
     box-sizing: border-box;
 }
 
+#game-stats {
+	margin-left: 4px;
+}
+
+#game-buttons {
+	margin-left: 20px;
+	margin-bottom: 5px;
+}
