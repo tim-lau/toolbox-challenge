@@ -84,7 +84,6 @@ function gameSet() {
 }
 
 function gameReset() {
-
     twoFlipped = false;
     gameBoard.empty();
     tiles = [];
@@ -109,13 +108,14 @@ function gameRun() {
         }
         status();
         
-        // After the user matches all the tiles
+        // After the user matches all the tiles,
+        // clear the tiles and display win message
         if(matches == 8) {
             setTimeout(function() {
                 gameBoard.empty();
                 $('#win-modal').modal('show');
                 clearInterval(timer);
-            }, 3000)
+            }, 1500)
         };
     });
 }
@@ -136,7 +136,7 @@ function compareTiles(tile, img) {
         setTimeout(function() {
             $(img).css('cursor', 'default')
         }, 1000)
-        // Match, tiles remain flipped
+        // Tiles match, tiles remain flipped
         if (tempTile[0].src == tempTile[1].src) {
             tempTile[0].matched = true;
             tempTile[1].matched = true;
@@ -144,7 +144,7 @@ function compareTiles(tile, img) {
             matches++;
             tempTile = [];
             tempImage = [];
-        // No match, tiles are flipped back 
+        // Tiles don't match, tiles are flipped back 
         } else {
             twoFlipped = true;
             misses++;
