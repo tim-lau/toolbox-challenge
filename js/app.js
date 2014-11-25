@@ -32,13 +32,11 @@ $(document).ready(function() {
     $(function () {
         $('[data-toggle="popover"]').popover()
     })
-    
     $('#startGame').click(function() {
         gameReset();
         status();
         makeTiles();
         gameSet();
-        console.log("matches: " + matches + " misses: " + misses + " remaining: " + remaining);
 
         // Starts timer
         var seconds = Date.now();
@@ -64,7 +62,7 @@ function gameSet() {
         pairs.push(_.clone(tile));
     })
     pairs = _.shuffle(pairs);
-    console.log(pairs);
+    // console.log(pairs);
 
     var img;
     var row = $(document.createElement('div'));
@@ -86,6 +84,7 @@ function gameSet() {
 }
 
 function gameReset() {
+
     twoFlipped = false;
     gameBoard.empty();
     tiles = [];
@@ -98,24 +97,27 @@ function gameReset() {
 }
 
 function gameRun() {
- $('#gameBoard img').click(function() {
-    var clickedImg = $(this);
-    var tile = clickedImg.data('tile');
-    if (twoFlipped == false && !tile.flipped) {
-        flipTile(tile, clickedImg);
-        console.log("Selected tile: " + tile.tileNum); 
-        compareTiles(tile, clickedImg);
-    }
-
-    status();
-
-    if(matches == 8){
-        setTimeout(function() {
-            gameBoard.empty();
-            clearInterval(timer);
-        }, 3000)
-    };
-});
+    $('#gameBoard img').click(function() {
+        var clickedImg = $(this);
+        var tile = clickedImg.data('tile');
+        // if the tile is not flipped and there aren't
+        // two tiles flipped already
+        if (twoFlipped == false && !tile.flipped) {
+            flipTile(tile, clickedImg);
+            console.log("Selected tile: " + tile.tileNum); 
+            compareTiles(tile, clickedImg);
+        }
+        status();
+        
+        // After the user matches all the tiles
+        if(matches == 8) {
+            setTimeout(function() {
+                gameBoard.empty();
+                $('#win-modal').modal('show');
+                clearInterval(timer);
+            }, 3000)
+        };
+    });
 }
 
 function status() {
@@ -129,7 +131,12 @@ function compareTiles(tile, img) {
     tempImage.push(img);
 
     if (tempTile.length == 2) {
-        // Match
+        // sets cursor to indicate no clicking for one second
+        $(img).css('cursor', 'not-allowed')
+        setTimeout(function() {
+            $(img).css('cursor', 'default')
+        }, 1000)
+        // Match, tiles remain flipped
         if (tempTile[0].src == tempTile[1].src) {
             tempTile[0].matched = true;
             tempTile[1].matched = true;
@@ -137,19 +144,19 @@ function compareTiles(tile, img) {
             matches++;
             tempTile = [];
             tempImage = [];
-        // No match
-    } else {
-        twoFlipped = true;
-        misses++;
-        window.setTimeout(function() {
-            flipTile(tempTile[0], tempImage[0]);
-            flipTile(tempTile[1], tempImage[1]);
-            twoFlipped = false;
-            tempTile = [];
-            tempImage = [];
-        }, 1000);
+        // No match, tiles are flipped back 
+        } else {
+            twoFlipped = true;
+            misses++;
+            window.setTimeout(function() {
+                flipTile(tempTile[0], tempImage[0]);
+                flipTile(tempTile[1], tempImage[1]);
+                twoFlipped = false;
+                tempTile = [];
+                tempImage = [];
+            }, 1000);
+        }
     }
-}
 }
 
 function flipTile(tile, img) {

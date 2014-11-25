@@ -7,14 +7,28 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     </head>
     <body>
+        <h1>Memory Game!</h1>
 
-        <h1>Memory!</h1>
+        <div class="modal fade" id="win-modal" data-backdrop="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">You win!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Press start game to play again!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id="close-modal" data-dismiss="modal">I would love to.</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="game-buttons">
         <button id="startGame" class="btn btn-large btn-primary">Start Game!</button>
         <button id="howto" class="btn btn-large btn-info" data-toggle="popover" title="Instructions" data-content="Click the tiles to flip them over! You can win the game by matching each of the eight pairs of tiles.">How To Play!</button>
         </div>
-
 
         <div id="game-stats">
             <div class ="col-xs-3">
