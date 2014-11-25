@@ -24,8 +24,8 @@ function makeTiles() {
             flipped: false,
             matched: false
         });
-        } // for each tile
-    }
+    } // for each tile
+}
 
 // when document is ready
 $(document).ready(function() {
@@ -62,7 +62,6 @@ function gameSet() {
         pairs.push(_.clone(tile));
     })
     pairs = _.shuffle(pairs);
-    // console.log(pairs);
 
     var img;
     var row = $(document.createElement('div'));
@@ -103,7 +102,6 @@ function gameRun() {
         // two tiles flipped already
         if (twoFlipped == false && !tile.flipped) {
             flipTile(tile, clickedImg);
-            console.log("Selected tile: " + tile.tileNum); 
             compareTiles(tile, clickedImg);
         }
         status();
